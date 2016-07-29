@@ -69,7 +69,7 @@ public class RpcServerTest {
     @org.junit.Test
     public void startServer() throws Exception {;
 
-        RpcServer server = new RpcServer(new ZKRegister("localhost:2181", "/"), serviceServer, 10);
+        RpcServer server = new RpcServer(new DummyRegister(), serviceServer, 10);
         server.register(HelloService.class, new HelloService() {
 
             @Override
@@ -79,7 +79,7 @@ public class RpcServerTest {
         });
         server.start();
         try {
-            RpcClient client = new RpcClient("test", new ZKDiscover("localhost:2181", "/"));
+            RpcClient client = new RpcClient("test", new DummyDiscover());
             client.start();
             try {
                 HelloService helloService = client.newService(HelloService.class);
